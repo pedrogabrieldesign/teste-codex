@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Gerador de Convites</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 20px; }
+label { display: block; margin-top: 10px; }
+textarea { width: 300px; height: 100px; }
+#resultados p {
+  background: #f0f0f0;
+  padding: 8px;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+</style>
+</head>
+<body>
+<h1>Gerar convites</h1>
+<div id="conviteForm">
+<label>Nome da atividade:
+  <input type="text" id="atividade" />
+</label>
+<label>Data e hora:
+  <input type="datetime-local" id="datahora" />
+</label>
+<label>Nomes dos convidados (um por linha):
+  <textarea id="convidados"></textarea>
+</label>
+<button id="gerar">Gerar convite</button>
+</div>
+<div id="resultados"></div>
+<script>
+document.getElementById('gerar').addEventListener('click', function() {
+  const atividade = document.getElementById('atividade').value.trim();
+  const dataHora = document.getElementById('datahora').value;
+  const convidadosText = document.getElementById('convidados').value.trim();
+  const resultadoEl = document.getElementById('resultados');
+  resultadoEl.innerHTML = '';
+  if (!atividade || !dataHora || !convidadosText) {
+    alert('Preencha todos os campos.');
+    return;
+  }
+  const nomes = convidadosText.split(/\n|,\s*/).filter(Boolean);
+  nomes.forEach(function(nome) {
+    const p = document.createElement('p');
+    const horario = new Date(dataHora).toLocaleString('pt-BR');
+    p.textContent = 'Olá ' + nome + ', você está convidado(a) para ' +
+      atividade + ' em ' + horario + '.';
+    resultadoEl.appendChild(p);
+  });
+});
+</script>
+</body>
+</html>
+
